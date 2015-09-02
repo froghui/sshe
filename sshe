@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if (! which python >/dev/null) ; then
+    echo "please install python first."
+    exit 1
+fi
+
+if (! which expect >/dev/null) ; then
+    echo "please install expect first."
+    exit 1
+fi
+
+if [ -f ~/.sshx.config ]; then
+    source ~/.sshx.config
+fi
+
+if [[ $LDAP_ID == "" || $LDAP_TOKEN == "" || $LDAP_PASSWD == ""  || $SSH_PASSWD == "" ]]; then
+    echo " can not find LDAP_USER, LDAP_TOKEN , LDAP_PASSWD and SSH_PASSWD, please specify them in ~/.sshx.config. "
+    exit 1
+fi
+
+VERI_CODE=$(python lib/auth.py $LDAP_TOKEN)
+
+expect -f lib/ssh_expect "$1" "$LDAP_ID" "$VERI_CODE" "$LDAP_PASSWD" "$SSH_PASSWD"

@@ -1,0 +1,36 @@
+#!/usr/bin/expect
+set timeout 30
+set target [lindex $argv 0]
+set ssh_user [lindex $argv 1]
+set ssh_code [lindex $argv 2]
+set ssh_passwd [lindex $argv 3]
+set root_passwd [lindex $argv 4]
+
+if { $target == "" } {
+    puts "Usage:<target> \n"
+    exit 1
+}
+
+puts "$target $ssh_code $ssh_user $ssh_passwd $root_passwd\n"
+
+if { [string match  "192.*" $target] } {
+	spawn ssh -p 58422 root@$target
+	expect "password"
+	send "$root_passwd\r"
+	interact
+        exit 0
+}
+
+if { [string match  "10.*" $target] } {
+	spawn ssh -p 22 $ssh_user@192.168.8.171
+	expect "Verification code:"
+	send "$ssh_code\r"
+	expect "Password:"
+	send "$ssh_passwd\r"
+        expect "@"
+        send "ssh root@$target\r"
+        expect "password"
+        send "$root_passwd\r"
+	interact
+        exit 0
+}
