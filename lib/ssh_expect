@@ -11,8 +11,6 @@ if { $target == "" } {
     exit 1
 }
 
-puts "$target $ssh_code $ssh_user $ssh_passwd $root_passwd\n"
-
 if { [string match  "192.*" $target] } {
 	spawn ssh -p 58422 root@$target
 	expect "password"
