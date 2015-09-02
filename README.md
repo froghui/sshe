@@ -2,6 +2,7 @@
 ssh automation login
 
 usage:
+
 1. git clone to local dir
 
 git clone git@github.com:froghui/sshe.git /usr/local
