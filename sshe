@@ -12,8 +12,8 @@ fi
 
 LOCAL_DIR=$(dirname $(readlink -f $0))
 
-if [ -f ~/.sshx.config ]; then
-    source ~/.sshx.config
+if [ -f ~/.sshe.config ]; then
+    source ~/.sshe.config
 fi
 
 if [[ $LDAP_ID == "" || $LDAP_TOKEN == "" || $LDAP_PASSWD == ""  || $SSH_PASSWD == "" ]]; then
