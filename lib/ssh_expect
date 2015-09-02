@@ -12,7 +12,7 @@ if { $target == "" } {
 }
 
 if { [string match  "192.*" $target] } {
-	spawn ssh -p 58422 root@$target
+	spawn ssh -o StrictHostKeyChecking=no -p 58422 root@$target
 	expect "password"
 	send "$root_passwd\r"
 	interact
@@ -20,13 +20,13 @@ if { [string match  "192.*" $target] } {
 }
 
 if { [string match  "10.*" $target] } {
-	spawn ssh -p 22 $ssh_user@192.168.8.171
+	spawn ssh -o StrictHostKeyChecking=no -p 22 $ssh_user@192.168.8.171
 	expect "Verification code:"
 	send "$ssh_code\r"
 	expect "Password:"
 	send "$ssh_passwd\r"
         expect "@"
-        send "ssh root@$target\r"
+        send "ssh -o StrictHostKeyChecking=no root@$target\r"
         expect "password"
         send "$root_passwd\r"
 	interact
